@@ -1,0 +1,159 @@
+% !TEX program = lualatex
+% !TEX program = lualatex
+%
+%   卒論／修論中間発表要旨テンプレート
+%
+\documentclass[a4j]{ltjsarticle}
+\usepackage{graphicx}
+\usepackage{tascmac}
+\usepackage{verbatim}
+\usepackage{url}
+
+\renewcommand{\refname}{\normalsize 参考文献}
+\newcounter{seccnt}
+\setcounter{seccnt}{1}
+\newcommand{\usection}[1]{\ \newline{\bf\underline{\theseccnt\stepcounter{seccnt}. #1}\hspace{10pt}}}
+
+% twocolumn.sty  27 Jan 85
+\twocolumn
+\sloppy
+\flushbottom
+\parindent 1em
+\leftmargini 2em
+\leftmarginv .5em
+\leftmarginvi .5em
+\oddsidemargin 30pt 
+\evensidemargin 30pt
+\marginparwidth 48pt 
+\marginparsep 10pt 
+\textwidth 410pt 
+
+
+
+\begin{document}
+\topmargin -2.0cm
+\textheight 25cm
+\oddsidemargin  -8mm
+\evensidemargin -8mm
+\textwidth 18cm
+
+\twocolumn[
+\begin{center}
+% --- 卒論タイトル (タイトルが2行に渡る場合) ---
+%
+%{\Large \bf 命令レベル並列プロセッサ用バリア型フェッチ機構\\}
+%におけるNOP削減方式\\}
+%\vspace{-0.1cm}
+%{\Large \bf におけるNOP削減方式\\}
+%{\small Decreasing of NOP Instruction on the Barrier \\}
+%{\small Type Instruction Fetch Mechanism\\}
+%\vspace{0.1cm}
+
+% --- 卒論タイトル (タイトルが1行の場合) ---
+%
+{\Large \bf 生成AIによるAR仮想ペット自律行動の制御手法\\}
+{\small A Control Method for Augmented Reality Pet Autonomous Behavior with Generative AI\\}
+\vspace{0.1cm}
+
+
+% --- 著者名(もし著者名(日本語と英語)が左右にずれるならhspaceを調整)する ---  
+%
+{\normalsize S225084 \hspace{0.5cm}泉二 咲希\\}
+\vspace{-0.2cm}
+{\small \hspace{0.5cm}Motoji Saki
+}
+
+\end{center}
+\vspace{0.2cm} ]
+
+\baselineskip 0.45cm
+\thispagestyle{empty}
+
+% -----   ここから先は、本文 -------------------------------- 
+
+\usection{はじめに}
+近年、AIを用いたペットロボットが普及しており、それらは人々に癒しを提供している\cite{1}。しかし、これらのロボットを動かすためには大量の部品と高度な制御が必要であり、一般家庭用ではぎごちない動きになるか、非常に高価・大型になってしまう。
+また、居住空間における物理的な占有スペースの問題も導入の障壁となる。
+
+これらの物理的な制約を解消する手段として、AR技術が有効である。AR技術を用いれば、物理的な制限に縛られず、滑らかで自然に動くペットを、物理的な場所を取らずにユーザーの目の前に提示できる。
+
+しかし、従来のARペットアプリの多くは、あらかじめ決められたアニメーションを再生するだけに留まっているものが多い。 挙動が単純なパターンの繰り返しであれば、ユーザーはそこに生き物らしさを感じられず、癒やし効果が限られてしまう懸念がある。
+
+そこで本研究では、生成AIを用いてその時の状況に応じた判断をすることができる自律機能を備えたARのペットを開発する。 具体的には、ユーザーの指示や環境に応じて自律的に行動を選択・学習する機能を実装する。
+これにより、物理ロボットのハードウェア制約と、従来のARペットのインタラクションの乏しさという双方の課題を解決し、新しい形の癒やしに繋げることを目指す。
+
+
+\usection{関連技術}
+AR環境下での仮想ペットとのインタラクション体験を実現するために、Meta社製のスタンドアローン型MR/VRデバイスであるMeta Quest 3を使用する。Meta Quest 3は軽量で高性能なARデバイスであり、空間認識やハンドトラッキングなどの機能を備えることで、現実空間との高い融合度を実現している。
+
+開発環境には、Unity Technologies社が提供するクロスプラットフォーム対応のゲームエンジンUnityを用いた。UnityはMeta Quest 3との互換性が高く、公式SDKの提供により、仮想ペットの動作制御やユーザーとのリアルタイムインタラクションの実装に適している。本研究では、仮想ペットと3D空間におけるユーザーとのインタラクション処理をすべてUnity上で構築する。
+
+ストレス緩和効果の評価で用いる心拍数の取得には、Polar社製の心拍センサーPolar H10を使用する。Polar H10は高精度な心拍取得が可能であり、副交感神経活動の評価にも広く用いられている。副交感神経はストレス緩和と密接に関連しているため、本研究における定量的指標として適している。データはBluetooth Low Energyにより対応端末とリアルタイムで接続・取得され、解析ツールにより記録・解析を行う。
+\usection{研究の経緯}
+仮想ペットが人間に与える幸福感を評価するにあたり、まずは実際のペットがもたらす幸福感に関する先行研究を整理した。
+先行研究によれば、犬と見つめ合うことで愛着や幸福感に関与するホルモンであるオキシトシンの分泌が促進されること\cite{3}、また、動物とのふれあいによってストレスホルモンであるコルチゾールの濃度が低下すること\cite{4}が報告されている。さらに、心拍数や血圧の低下\cite{2}、および主観的な気分の改善なども指摘されており、ペットとの関わりが心身のストレス軽減に寄与することが示唆されている。
+これらの知見を踏まえ、本研究においての幸福感はペットとの視覚的・身体的接触によって誘発される心拍数の有意な変化と主観的な気分改善を含むストレス応答の緩和現象に関連性を想定する。
+
+次に、幸福感の評価指標として用いる心拍データがリアルタイムで取得可能であるかを検証した。心拍センサーを用い、BLE通信を介してデータを取得した結果、心拍数およびR-R 間隔を安定的に記録できることを確認した。ここで、R-R 間隔とは心電図波形における隣接するR波（心室の収縮を示すピーク）間の時間間隔である。
+さらに、得られた R-R 間隔からは、心拍変動の代表的な指標である RMSSDを算出した。RMSSDは連続するR-R間隔の差の二乗平均平方根で求められる値で、副交感神経活動を反映することが知られているため、自律神経系のバランス評価やストレス指標として広く利用されている。
+これらの処理は Python 環境上で実装し、BLE 通信には Bleak ライブラリを使用した。また、取得データはグラフとして可視化するとともに、後の分析のため CSV 形式で保存可能とした。
+リアルタイムで取得した心拍数の変位をグラフ化し、縦軸は心拍数の値、横軸は経過時間を示している。およそ2秒に1回の頻度でデータが取得されていることを確認した。心拍数と同様に、R-R 間隔や RMSSD のデータも同様にグラフ化した。
+
+仮想ペットの3Dモデルには、Unity Asset Storeで提供されている3D Stylized Animated Dogs Kitを採用する。このアセットは、犬のモデルおよび犬特有の自然な動作をAR空間で現実に重ね合わせられるので、ARデバイスの機能と組み合わせによりユーザーが撫でたり、遊んだりといったインタラクション機能に使用できる。
+
+インタラクションシナリオとしては、ユーザーが仮想空間上のボールを手で掴み、投げる動作を行うと、犬がそれに反応して走り出し、ボールを拾って戻ってくる一連の行動を想定する。このインタラクションは、実際のペットとの遊びに近い体験を再現し、ユーザーの没入感や感情的なつながりを高め、ストレスの緩和を促進する。
+この一連の操作は、UnityのHand Tracking機能とHand Grab Interactionを組み合わせて実装できる。Hand Tracking機能によってユーザーの手の動きをリアルタイムに取得し、Hand Grab Interactionにより、仮想空間内でボールを掴んで投げる自然なジェスチャ操作を実現した。
+
+さらに、Unityが提供するMixed Reality Utility KitのEffect MeshやAnchor Prefab Spawnerなどのビルディングブロックを活用することで、Meta Quest 3の空間認識機能を用いた現実空間との連携を行う。これらはMeta Quest 3とUnityが標準的に備える基本機能である。
+Effect Mesh は、実環境で認識された机や壁などに光や色を重ねて表示する機能であり、Anchor Prefab Spawner は、現実空間の位置を自動的に検出し、その場所にあらかじめ用意した3Dモデルを配置できる機能である。
+これにより、仮想ペットを現実の机の上に正確に出現させるといった動的な配置が可能となる。
+
+
+\usection{今後の計画}
+現在、インタラクションシナリオにおいてハンドトラッキングによるボールの投球動作は実装が完了しており、今後は犬がそれを追いかけてユーザの元にボールを持ち帰る一連の行動を実現する予定である。
+
+次に、より身体的な接触を取り入れたインタラクションとして、撫でる動作を検出し、それに応じて仮想ペットが好意的なアニメーション反応を示す機能を追加する。これは、動物との接触が視覚のみよりも高い癒し効果をもたらすとする先行研究\cite{2}に基づくものであり、触覚インタラクションを再現するために、実物のぬいぐるみにセンサーを搭載する計画である。
+センサーにはBLE通信が可能なものの使用を検討しており、撫でる強さや範囲を検出することで、仮想ペットの表情や動作にリアルタイムで反映させる。
+
+幸福感の評価指標として、心理的指標について以下の複数の尺度を候補として検討中である。
+
+\begin{itemize}
+    \item PANAS：ポジティブ感情とネガティブ感情を分けて評価し、幸福感の向上をポジティブ感情の増加とみなす。
+    \item Subjective Happiness Scale (SHS)：主観的幸福感を直接測定する短い質問紙である。
+    \item WHO-5 Well-Being Index：心理的ウェルビーイングを簡便に測定でき、参加者の負担が少ない。
+    \item POMS：一時的な感情状態を包括的に評価し、特にストレスやネガティブ感情の微小変化を得る。
+\end{itemize}
+
+今後は、実験の目的や参加者の負担を考慮しつつ、これらの尺度の中から最適なものを選定する。
+生理指標としては、心拍を計測し、副交感神経活動の指標であるRMSSDを算出する。心拍は心拍センサーを用いて常時計測され、ストレス軽減の客観的な指標として用いる。
+
+
+\usection{まとめ}
+本研究では、AR技術を活用して仮想ペットとのインタラクション体験を構築し、ストレスに関する数値を下げ、幸福感の向上をもたらすことを検証することを目的とした。住宅事情や健康上の制約から実際のペットを飼うことが難しい人々に対して、代替手段としての仮想ペット体験を提供する意義は大きい。
+
+開発面では、Meta Quest 3およびUnityを用いて、現実空間と仮想ペットとのインタラクションを実現した。今後は、撫でる動作をセンシングしてAR空間の犬の反応と連動させるなど、より没入感の高い触覚体験の実装を目指す。評価設計としては、主観的評価には複数の心理尺度を候補として検討しており、最終的に適切な尺度を選定する予定である。また、心拍を用いてストレスの変化を定量的に測定する。
+
+これにより、AR技術がストレス緩和や幸福感の向上に果たし得る新しい役割を示すとともに、医療・福祉・教育分野への応用展開の可能性を探る基盤となることが期待される。
+
+\small
+\begin{thebibliography}{9}
+\bibitem{1}
+佐藤鑑永・木藤恒夫, 
+``バーチャル・ペットの癒し効果'',
+\textit{久留米大学心理学研究}, 第8号, pp.39--44 (2008).
+\bibitem{2}
+Vormbrock, J. K., \& Grossberg, J. M. (1988).
+\textit{Cardiovascular effects of human-pet dog interactions}.
+Journal of Behavioral Medicine, 11(5), 509–517.
+\texttt{https://doi.org/10.1007/BF00844843}
+\bibitem{3} Miho Nagasawa, Shouhei Mitsui, Shiori En, Nobuyo Ohtani, Mitsuaki Ohta, Yasuo Sakuma, Tatsushi Onaka, Kazutaka Mogi, and Takefumi Kikusui, 
+\textit{Oxytocin-gaze positive loop and the coevolution of human–dog bonds}, 
+Science, vol. 348, no. 6232, pp. 333-336, 2015.
+\texttt{https://doi.org/10.1126/science.1261022}
+\bibitem{4} Patricia Pendry and Jaymie L. Vandagriff, 
+\textit{Animal Visitation Program (AVP) Reduces Cortisol Levels of University Students: A Randomized Controlled Trial}, 
+AERA Open, vol. 5, no. 2, pp. 1–12, 2019.
+\texttt{https://doi.org/10.1177/2332858419852592}
+
+\end{thebibliography}
+\end{document}
