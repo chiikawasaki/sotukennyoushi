@@ -88,7 +88,10 @@ AR環境下での仮想ペットとのインタラクション体験を実現す
 
 開発環境には、Unity Technologies社が提供するクロスプラットフォーム対応のゲームエンジンUnityを用いた。UnityはMeta Quest 3との互換性が高く、公式SDKの提供により、仮想ペットの動作制御やユーザーとのリアルタイムインタラクションの実装に適している。本研究では、仮想ペットと3D空間におけるユーザーとのインタラクション処理をすべてUnity上で構築する。
 
-ストレス緩和効果の評価で用いる心拍数の取得には、Polar社製の心拍センサーPolar H10を使用する。Polar H10は高精度な心拍取得が可能であり、副交感神経活動の評価にも広く用いられている。副交感神経はストレス緩和と密接に関連しているため、本研究における定量的指標として適している。データはBluetooth Low Energyにより対応端末とリアルタイムで接続・取得され、解析ツールにより記録・解析を行う。
+仮想ペットのモデルおよび動作には、Unity Asset Storeで提供されている「DOG Full Animations - Welsh Corgi」\cite{2}を採用した。本アセットには、犬の3Dモデルに加え、323種類のアニメーションが含まれている。これらを活用することで、待機、移動などの犬の自然な振る舞いを再現した。
+
+仮想ペットの知能および応答生成には、Google社が提供する生成AIモデル「Gemini 2.0 Flash」のAPIを使用した。Gemini 2.0 Flashは、高い推論能力を持ちながら低遅延で動作する特徴を持つ。これにより、ユーザーの問いかけやアクションに対して、リアルタイム性を損なうことなく即座に反応を返すインタラクションシステムを実現している。
+
 \usection{研究の経緯}
 仮想ペットが人間に与える幸福感を評価するにあたり、まずは実際のペットがもたらす幸福感に関する先行研究を整理した。
 先行研究によれば、犬と見つめ合うことで愛着や幸福感に関与するホルモンであるオキシトシンの分泌が促進されること\cite{3}、また、動物とのふれあいによってストレスホルモンであるコルチゾールの濃度が低下すること\cite{4}が報告されている。さらに、心拍数や血圧の低下\cite{2}、および主観的な気分の改善なども指摘されており、ペットとの関わりが心身のストレス軽減に寄与することが示唆されている。
@@ -142,10 +145,8 @@ Effect Mesh は、実環境で認識された机や壁などに光や色を重�
     iScience, vol. 26, no. 12, 108562, 2023.
 \texttt{https://doi.org/10.1016/j.isci.2023.108562}
 \bibitem{2}
-Vormbrock, J. K., \& Grossberg, J. M. (1988).
-\textit{Cardiovascular effects of human-pet dog interactions}.
-Journal of Behavioral Medicine, 11(5), 509–517.
-\texttt{https://doi.org/10.1007/BF00844843}
+\textit{DOG Full Animations - Welsh Corgi},
+\texttt{https://assetstore.unity.com/packages/3d/animations/dog-full-animations-welsh-corgi-247648}
 \bibitem{3} Miho Nagasawa, Shouhei Mitsui, Shiori En, Nobuyo Ohtani, Mitsuaki Ohta, Yasuo Sakuma, Tatsushi Onaka, Kazutaka Mogi, and Takefumi Kikusui, 
 \textit{Oxytocin-gaze positive loop and the coevolution of human–dog bonds}, 
 Science, vol. 348, no. 6232, pp. 333-336, 2015.
